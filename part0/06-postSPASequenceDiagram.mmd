@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant browser
+    participant server
+    
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note | body = {"content":"New Hello World","date":"2025-09-19T01:35:31.616Z"}
+    activate server
+    Note left of server: Server does not ask for a redirect
+    Note right of browser: Browser stays on the same page, and it sends no further HTTP requests.
+    Note left of server: Server executes the code fetched earlier.
+
+    server-->>browser: 201, {"message":"note created"}
+    deactivate server
