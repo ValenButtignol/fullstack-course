@@ -7,18 +7,20 @@ const App = () => {
     )
   }
 
-  const Content = (content) => {
+  const Content = () => {
     return (
       <>
-        <p>
-          {part1} {exercises1}
-        </p>
-        <p>
-          {part2} {exercises2}
-        </p>
-        <p>
-          {part3} {exercises3}
-        </p>
+        <Part part={part1} exercises={exercises1}/>
+        <Part part={part2} exercises={exercises2}/>
+        <Part part={part3} exercises={exercises3}/>
+      </>
+    )
+  }
+
+  const Part = (content) => {
+    return (
+      <>
+        <p> {content.part} {content.exercises}</p>
       </>
     )
   }
