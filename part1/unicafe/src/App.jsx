@@ -1,32 +1,34 @@
 import { useState } from 'react'
 
-const Button = ({onClick, text}) => {
-  return <button onClick={onClick}>
+const Button = ({onClick, text}) => (
+  <button onClick={onClick}>
     {text}
   </button>
-}
+)
 
 const Statistics = (props) => {
-  console.log(props);
   if (props.all == 0) {
     return <p>No feedback given</p>
   }
 
   return (
-    <>
+    <table>
       <Stat stat="good" number={props.good}/>
       <Stat stat="neutral" number={props.neutral}/>
       <Stat stat="bad" number={props.bad}/>
       <Stat stat="all" number={props.all}/>
       <Stat stat="average" number={props.average}/>
       <Stat stat="positive" number={props.positive + "%"}/>
-    </>
+    </table>
   );
 }
 
-const Stat = ({stat, number}) => {
-  return <p>{stat} {number}</p>
-}
+const Stat = ({stat, number}) => (
+  <tr>
+    <td>{stat}</td>
+    <td>{number}</td>
+  </tr>
+)
 
 const App = () => {
   // save clicks of each button to its own state
@@ -46,21 +48,23 @@ const App = () => {
     "positive": positive, 
   }
 
+  const fixPrecision = (num) => (num.toFixed(2))
+
   const handleGoodButton = () => {
     const newGood = good + 1;
     const newAll = all + 1;
     setGood(newGood);
     setAll(newAll);
-    setAverage((newGood - bad) / newAll);
-    setPostitive(newGood / newAll);
+    setAverage(fixPrecision((newGood - bad) / newAll));
+    setPostitive(fixPrecision(newGood / newAll * 100));
   }
   
   const handleNeutralButton = () => {
     const newAll = all + 1;
     setNeutral(neutral + 1);
     setAll(newAll);
-    setAverage((good + bad) / newAll);
-    setPostitive(good / newAll);
+    setAverage(fixPrecision((good + bad) / newAll));
+    setPostitive(fixPrecision(good / newAll * 100));
   }
   
   const handleBadButton = () => {
@@ -68,12 +72,11 @@ const App = () => {
     const newAll = all + 1;
     setBad(newBad);
     setAll(newAll);
-    setAverage((good - newBad) / newAll);
-    setPostitive(good / newAll);
+    setAverage(fixPrecision((good - newBad) / newAll));
+    setPostitive(fixPrecision(good / newAll * 100));
   }
 
   return (
-
     <div>
       <h1>give feedback</h1>
       <Button onClick={handleGoodButton} text="good"/>
