@@ -20,6 +20,7 @@ const App = () => {
    
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
+  const [mostVoted, setMostVoted] = useState(0);
 
   // Having this function decouples the handler from the number generation.
   const selectRandom = (min, max) => (Math.floor(Math.random() * (max - min + 1)) + min);
@@ -31,11 +32,17 @@ const App = () => {
   const voteHandler = () => {
     const copy = [...votes];
     copy[selected] += 1;
+    const amountOfLastVoted = copy[selected];
+    
     setVotes(copy);
+    if (amountOfLastVoted > votes[mostVoted]) {
+      setMostVoted(selected);
+    }
   }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>Votes {votes[selected]}</p>
       <Button 
@@ -43,6 +50,10 @@ const App = () => {
         onClick={() => selectHandler(selectRandom(0, anecdotes.length-1))}
       />
       <Button text="Vote" onClick={voteHandler}/>
+
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[mostVoted]}
+      <p>has {votes[mostVoted]} votes</p>
     </div>
   )
 }
