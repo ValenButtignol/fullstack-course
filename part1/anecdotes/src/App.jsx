@@ -18,26 +18,31 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
    
-  const [selected, setSelected] = useState(0)
+  const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
+  // Having this function decouples the handler from the number generation.
   const selectRandom = (min, max) => (Math.floor(Math.random() * (max - min + 1)) + min);
 
   const selectHandler = (value) => {
-    const handler = () => (setSelected(value));
-    return handler
+    setSelected(value);
+  }
+
+  const voteHandler = () => {
+    const copy = [...votes];
+    copy[selected] += 1;
+    setVotes(copy);
   }
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>Votes {votes[selected]}</p>
       <Button 
         text="Next Anecdote"
-        onClick={
-          selectHandler(
-            selectRandom(0, anecdotes.length-1)
-          )
-        }
+        onClick={() => selectHandler(selectRandom(0, anecdotes.length-1))}
       />
+      <Button text="Vote" onClick={voteHandler}/>
     </div>
   )
 }
