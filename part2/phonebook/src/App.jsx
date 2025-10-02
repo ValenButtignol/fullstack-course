@@ -14,8 +14,19 @@ const App = () => {
     setNewName('');
   }
 
+  const repeatedPerson = (name) => {
+    return persons.some(person => person.name === name);
+  }
+
   const handleNewNameButton = (event) => {
-    setNewName(event.target.value);
+    const name = event.target.value;
+    if (repeatedPerson(name)) {
+      alert(`${name} is already added to phonebook`)
+      setNewName('')
+      return;
+    }
+
+    setNewName(name);
   }
 
 
