@@ -25,8 +25,10 @@ const Course = ({course}) => {
   }
 
   const Total = ({parts}) => {
-    let total = 0;
-    parts.forEach( part => {total += part.exercises} );
+    let current = 0;
+    const total = parts.reduce((accumulator, currentVal) => accumulator + currentVal.exercises,
+      current
+    );
     return <p>Number of exercises {total}</p>
   }
 
