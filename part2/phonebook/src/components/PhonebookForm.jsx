@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import axios from 'axios';
+
 
 const PhonebookForm = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState('');
@@ -24,13 +26,20 @@ const PhonebookForm = ({ persons, setPersons }) => {
       alert(`${newNumber} is already used, try again`);
       return;
     }
+
     const newPhoneContact = {
       name: newName,
       number: newNumber
     };
-    setPersons(persons.concat(newPhoneContact));
-    setNewName('');
-    setNewNumber('');
+
+    axios
+      .post('http://localhost:3001/persons', newPhoneContact)
+      .then(response => {
+        console.log('New contact posted')
+        setPersons(persons.concat(response.data));
+        setNewName('');
+        setNewNumber('');
+      })
   };
 
   return (
