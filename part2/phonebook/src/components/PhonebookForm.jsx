@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-
+import personsService from '../services/persons';
 
 const PhonebookForm = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState('');
@@ -32,14 +32,12 @@ const PhonebookForm = ({ persons, setPersons }) => {
       number: newNumber
     };
 
-    axios
-      .post('http://localhost:3001/persons', newPhoneContact)
-      .then(response => {
-        console.log('New contact posted')
-        setPersons(persons.concat(response.data));
+    personsService.create(newPhoneContact)
+      .then(newPersonData => {
+        setPersons(persons.concat(newPersonData));
         setNewName('');
         setNewNumber('');
-      })
+    })
   };
 
   return (
